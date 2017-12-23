@@ -10,7 +10,7 @@ wallpapers that are automatically updated.
 _Create installer first.._
 
 ### TODO
-- Installer
+- Run in background
 - Auto updater
 - Run at startup
 - Polishing
