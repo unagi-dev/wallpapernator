@@ -30,7 +30,8 @@ namespace Wallpapernator
         public async void Start()
         {
             this.Stop();
-            await GetBingImageAsync();
+            if (!Debugger.IsAttached) { await GetBingImageAsync(); }
+            
             bingTimer = new Timer(intervalHours * 60 * 60 * 1000);
             bingTimer.Elapsed += BingTimer_Elapsed;
             bingTimer.Start();
