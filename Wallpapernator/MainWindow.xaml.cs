@@ -29,6 +29,7 @@ namespace Wallpapernator
         public MainWindow()
         {
             InitializeComponent();
+            this.Title += " v" + ucSettings.Wps.VersionShort;
             InitLogger();
             InitService();
         }

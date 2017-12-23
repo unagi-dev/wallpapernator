@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wallpapernator", "Wallpapernator\Wallpapernator.csproj", "{977C7BF7-7063-4CD0-B0FF-DEFC49B91203}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Wallpapernator.Installer", "Wallpapernator.Installer\Wallpapernator.Installer.vdproj", "{94D9BCAB-E0D0-4390-8145-E17B79687F08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{977C7BF7-7063-4CD0-B0FF-DEFC49B91203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{977C7BF7-7063-4CD0-B0FF-DEFC49B91203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{977C7BF7-7063-4CD0-B0FF-DEFC49B91203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94D9BCAB-E0D0-4390-8145-E17B79687F08}.Debug|Any CPU.ActiveCfg = Debug
+		{94D9BCAB-E0D0-4390-8145-E17B79687F08}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,3 +20,4 @@ _Create installer first.._
 - WPF application
 - Open solution
 - Run
+- For the installer project you will need the _Visual Studio Installer Projects Extension_ (Search for it in Tools > Extension and Updates)
