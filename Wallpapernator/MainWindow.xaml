@@ -12,7 +12,7 @@
                 <local:SettingsUserControl x:Name="ucSettings" SettingsUpdatedEvent="ucSettings_SettingsUpdatedEvent"></local:SettingsUserControl>
             </TabItem>
             <TabItem Header="Images">
-                <local:ImageListUserControl></local:ImageListUserControl>
+                <local:ImageListUserControl x:Name="ucImageList"></local:ImageListUserControl>
             </TabItem>
             <TabItem Header="Log">
                 <local:LogUserControl ClearLogEvent="ucLog_ClearLogEvent" OpenLocationEvent="ucLog_OpenLocationEvent" x:Name="ucLog"></local:LogUserControl>

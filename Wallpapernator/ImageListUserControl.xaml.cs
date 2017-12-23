@@ -41,12 +41,22 @@ namespace Wallpapernator
             {
                 if (!Directory.Exists(settings.WallpaperPath)) { return; }
 
+                lstImages.Items.Clear();
+
                 foreach (var img in Directory.GetFiles(settings.WallpaperPath, "*.jpg"))
                 {
                     var uc = new ImageInfoUserControl(img);
                     lstImages.Items.Add(uc);
                 }
             }));
+        }
+
+        public void AddImage(string path)
+        {
+            if (!File.Exists(path)) { return; }
+
+            var uc = new ImageInfoUserControl(path);
+            lstImages.Items.Add(uc);
         }
     }
 }
