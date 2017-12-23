@@ -23,13 +23,13 @@ namespace Wallpapernator
     public partial class MainWindow : Window
     {
         private Logger logger = new Logger();
-        //private WPSettings wpSettings = new WPSettings();
         private SpotlightProcessor spotlight;
         private BingProcessor bing;
 
         public MainWindow()
         {
             InitializeComponent();
+            this.Title += " v" + ucSettings.Wps.VersionShort;
             InitLogger();
             InitService();
         }
@@ -43,6 +43,7 @@ namespace Wallpapernator
         private void ucSettings_SettingsUpdatedEvent(object sender, EventArgs e)
         {
             InitService();
+            ucImageList.InitImages();
             logger.Log($"Settings updated.");
         }
 
@@ -65,6 +66,7 @@ namespace Wallpapernator
                 logger.Log("Spotlight image added: " + e);
                 var n = new NotifyWindow(e);
                 n.Show();
+                ucImageList.AddImage(e);
             }));
         }
 
@@ -94,6 +96,7 @@ namespace Wallpapernator
                 logger.Log("Bing image added: " + e);
                 var n = new NotifyWindow(e);
                 n.Show();
+                ucImageList.AddImage(e);
             }));
         }
 

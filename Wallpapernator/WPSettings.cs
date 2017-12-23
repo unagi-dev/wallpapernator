@@ -16,6 +16,7 @@ namespace Wallpapernator
         private int imageHeight;
         private int bingIntervalHours;
         private bool runAtStartup;
+        private string version;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,24 +35,38 @@ namespace Wallpapernator
 
         public void Load()
         {
-            this.WallpaperPath = Properties.Settings.Default["WallpaperPath"].ToString();
-            this.SpotlightPath = Properties.Settings.Default["SpotlightPath"].ToString();
-            this.ImageWidth = (int)Properties.Settings.Default["ImageWidth"];
-            this.ImageHeight = (int)Properties.Settings.Default["ImageHeight"];
-            this.bingIntervalHours = (int)Properties.Settings.Default["BingIntervalHours"];
-            this.RunAtStartup = (bool)Properties.Settings.Default["RunAtStartup"];
+            UpdateSettings();
+
+            this.version = System.Windows.Forms.Application.ProductVersion;
+            this.WallpaperPath = Properties.Settings.Default.WallpaperPath;
+            this.SpotlightPath = Properties.Settings.Default.SpotlightPath;
+            this.ImageWidth = (int)Properties.Settings.Default.ImageWidth;
+            this.ImageHeight = (int)Properties.Settings.Default.ImageHeight;
+            this.bingIntervalHours = (int)Properties.Settings.Default.BingIntervalHours;
+            this.RunAtStartup = (bool)Properties.Settings.Default.RunAtStartup;
         }
 
         public void Save()
         {
-            Properties.Settings.Default["WallpaperPath"] = this.wallpaperPath;
-            Properties.Settings.Default["SpotlightPath"] = this.spotlightPath;
-            Properties.Settings.Default["ImageWidth"] = this.imageWidth;
-            Properties.Settings.Default["ImageHeight"] = this.imageHeight;
-            Properties.Settings.Default["BingIntervalHours"] = this.bingIntervalHours;
-            Properties.Settings.Default["RunAtStartup"] = this.runAtStartup;
+            Properties.Settings.Default.WallpaperPath = this.wallpaperPath;
+            Properties.Settings.Default.SpotlightPath = this.spotlightPath;
+            Properties.Settings.Default.ImageWidth = this.imageWidth;
+            Properties.Settings.Default.ImageHeight = this.imageHeight;
+            Properties.Settings.Default.BingIntervalHours = this.bingIntervalHours;
+            Properties.Settings.Default.RunAtStartup = this.runAtStartup;
 
             Properties.Settings.Default.Save();
+        }
+
+        private void UpdateSettings()
+        {
+            // Copy user settings from previous application version if necessary
+            if (Properties.Settings.Default.UpdateSettings)
+            {
+                Properties.Settings.Default.Upgrade();
+                Properties.Settings.Default.UpdateSettings = false;
+                Properties.Settings.Default.Save();
+            }
         }
 
         public string WallpaperPath
@@ -153,6 +168,22 @@ namespace Wallpapernator
                     this.runAtStartup = value;
                     NotifyPropertyChanged();
                 }
+            }
+        }
+
+        public string Version
+        {
+            get
+            {
+                return this.version;
+            }
+        }
+
+        public string VersionShort
+        {
+            get
+            {
+                return this.version.Substring(0, this.version.LastIndexOf('.'));
             }
         }
 

@@ -10,7 +10,7 @@ wallpapers that are automatically updated.
 _Create installer first.._
 
 ### TODO
-- Installer
+- Run in background
 - Auto updater
 - Run at startup
 - Polishing
@@ -20,3 +20,4 @@ _Create installer first.._
 - WPF application
 - Open solution
 - Run
+- For the installer project you will need the _Visual Studio Installer Projects Extension_ (Search for it in Tools > Extension and Updates)
