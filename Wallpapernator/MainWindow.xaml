@@ -1,0 +1,22 @@
+﻿<Window x:Name="mainWindow" x:Class="Wallpapernator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wallpapernator"
+        mc:Ignorable="d"
+        Title="Wallpapernator" Height="600" Width="800" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" Icon="icon_ico.ico">
+    <Grid Background="Transparent">
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem Header="Settings">
+                <local:SettingsUserControl x:Name="ucSettings" SettingsUpdatedEvent="ucSettings_SettingsUpdatedEvent"></local:SettingsUserControl>
+            </TabItem>
+            <TabItem Header="Images">
+                <local:ImageListUserControl></local:ImageListUserControl>
+            </TabItem>
+            <TabItem Header="Log">
+                <local:LogUserControl ClearLogEvent="ucLog_ClearLogEvent" OpenLocationEvent="ucLog_OpenLocationEvent" x:Name="ucLog"></local:LogUserControl>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
