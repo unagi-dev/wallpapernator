@@ -16,9 +16,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Image x:Name="imgThumb" Height="80"/>
+            <Image x:Name="imgThumb" Width="142" Height="80"/>
             <StackPanel Grid.Column="1">
-                <Label x:Name="lblPath" Foreground="White">Path\to\image</Label>
+                <Label x:Name="lblPath" Foreground="White" MouseLeftButtonUp="lblPath_MouseLeftButtonUp">Path\to\image</Label>
                 <Label x:Name="lblDate" Foreground="White">2017-01-01</Label>
             </StackPanel>
         </Grid>

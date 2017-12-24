@@ -43,7 +43,7 @@ namespace Wallpapernator
         private void ucSettings_SettingsUpdatedEvent(object sender, EventArgs e)
         {
             InitService();
-            ucImageList.InitImages();
+            ucImageList.Reload();
             logger.Log($"Settings updated.");
         }
 

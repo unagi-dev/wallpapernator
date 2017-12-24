@@ -60,7 +60,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutUserControl.xaml.cs">
+      <DependentUpon>AboutUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BingProcessor.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="ImageInfoUserControl.xaml.cs">
       <DependentUpon>ImageInfoUserControl.xaml</DependentUpon>
     </Compile>
@@ -75,6 +79,10 @@
     </Compile>
     <Compile Include="SpotlightProcessor.cs" />
     <Compile Include="WPSettings.cs" />
+    <Page Include="AboutUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ImageInfoUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Link.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon_ico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\unagi_dev_about.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -17,6 +17,8 @@ namespace Wallpapernator
         private int bingIntervalHours;
         private bool runAtStartup;
         private string version;
+        private string gitUrl = "https://github.com/unagi-dev/wallpapernator";
+        private string unagiUrl = "https://github.com/unagi-dev";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -184,6 +186,22 @@ namespace Wallpapernator
             get
             {
                 return this.version.Substring(0, this.version.LastIndexOf('.'));
+            }
+        }
+
+        public string GitUrl
+        {
+            get
+            {
+                return this.gitUrl;
+            }
+        }
+
+        public string UnagiUrl
+        {
+            get
+            {
+                return this.unagiUrl;
             }
         }
 

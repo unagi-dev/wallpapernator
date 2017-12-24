@@ -13,6 +13,7 @@ namespace Wallpapernator
     {
         private int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
         private int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+        private BitmapImage bmi;
 
         public NotifyWindow(string ImagePath)
         {
@@ -20,24 +21,9 @@ namespace Wallpapernator
 
             this.Left = screenWidth - this.Width;
             this.Top = screenHeight - this.Height;
-
-            var bmi = new BitmapImage();
-            bmi.BeginInit();
-            bmi.CacheOption = BitmapCacheOption.OnLoad;
-            bmi.UriSource = new Uri(ImagePath, UriKind.Absolute);
-            bmi.EndInit();
             
+            this.bmi = Helpers.GetBitmapImageThumbFromFile(ImagePath, 300, 169);
             imgBackground.Source = bmi;
-
-            //Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
-            //{
-            //    var workingArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
-            //    var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-            //    var corner = transform.Transform(new Point(workingArea.Right, workingArea.Bottom));
-
-            //    this.Left = corner.X - this.ActualWidth;
-            //    this.Top = corner.Y - this.ActualHeight;
-            //}));
 
             InitializeAnimation();
         }
@@ -67,6 +53,7 @@ namespace Wallpapernator
 
         private void WindowStoryboard_Completed(object sender, EventArgs e)
         {
+            this.bmi = null;
             this.Close();
         }
     }

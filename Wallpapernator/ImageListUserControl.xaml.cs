@@ -21,33 +21,54 @@ namespace Wallpapernator
     /// </summary>
     public partial class ImageListUserControl : UserControl
     {
-        private WPSettings settings = new WPSettings();
+        private string wpPath;
 
         public ImageListUserControl()
         {
             InitializeComponent();
+
+            this.getPath();
             InitImages();
         }
 
-        public async void InitImages()
+        // Returns true if path has changed
+        private bool getPath()
         {
-            settings.Load();
+            var settingsPath = (new WPSettings()).WallpaperPath;
+
+            if (string.IsNullOrEmpty(this.wpPath) || string.Compare(settingsPath, this.wpPath, true) != 0)
+            {
+                this.wpPath = settingsPath;
+                return true;
+            }
+
+            return false;
+        }
+
+        private async void InitImages()
+        {
             await LoadImagesAsync();
+        }
+
+        public async void Reload()
+        {
+            if (!getPath()) { return; }
+
+            lstImages.Items.Clear();
+            await this.LoadImagesAsync();
         }
 
         private async Task LoadImagesAsync()
         {
+            if (!Directory.Exists(this.wpPath)) { return; }
+
             await this.Dispatcher.InvokeAsync((Action)(() =>
             {
-                if (!Directory.Exists(settings.WallpaperPath)) { return; }
-
-                lstImages.Items.Clear();
-
-                foreach (var img in Directory.GetFiles(settings.WallpaperPath, "*.jpg"))
+                foreach (var img in Directory.GetFiles(this.wpPath, "*.jpg"))
                 {
-                    var uc = new ImageInfoUserControl(img);
-                    lstImages.Items.Add(uc);
+                    this.AddImage(img);
                 }
+                GC.Collect();
             }));
         }
 
@@ -55,8 +76,11 @@ namespace Wallpapernator
         {
             if (!File.Exists(path)) { return; }
 
-            var uc = new ImageInfoUserControl(path);
-            lstImages.Items.Add(uc);
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                var uc = new ImageInfoUserControl(path);
+                lstImages.Items.Add(uc);
+            }));
         }
     }
 }
