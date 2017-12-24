@@ -19,6 +19,7 @@ namespace Wallpapernator
         private string version;
         private string gitUrl = "https://github.com/unagi-dev/wallpapernator";
         private string unagiUrl = "https://github.com/unagi-dev";
+        private string versionCheckUrl = "https://raw.githubusercontent.com/unagi-dev/wallpapernator/master/ver";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -205,5 +206,12 @@ namespace Wallpapernator
             }
         }
 
+        public string VersionCheckUrl
+        {
+            get
+            {
+                return this.versionCheckUrl;
+            }
+        }
     }
 }
