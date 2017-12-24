@@ -18,6 +18,7 @@ namespace Wallpapernator
         private Brush errorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFED6464"));
 
         public event EventHandler SettingsUpdatedEvent;
+        public event EventHandler<string> CloseExitEvent;
 
         public WPSettings Wps
         {
@@ -116,6 +117,16 @@ namespace Wallpapernator
             Helpers.AnimationFadeIn(lblSaveSettings, 300);
 
             return false;
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            CloseExitEvent?.Invoke(this, "CLOSE");
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            CloseExitEvent?.Invoke(this, "EXIT");
         }
 
         #region Data

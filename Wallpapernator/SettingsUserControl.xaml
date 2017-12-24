@@ -56,6 +56,11 @@
                 <Button x:Name="btnSaveSettings" Content="Save" Width="70" Margin="0,0,10,0" Padding="10,2,10,2" Click="btnSaveSettings_Click" Height="22" VerticalAlignment="Top" />
                 <Label x:Name="lblSaveSettings" Foreground="#6495ED" Padding="0,3,0,0" FontWeight="Bold" Opacity="0">Settings saved</Label>
             </StackPanel>
+            <!-- Exit -->
+            <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,20,0,0">
+                <Button x:Name="btnClose" Content="Close" Width="70" Margin="5,0,10,0" Padding="10,2,10,2" Height="22" Click="btnClose_Click" />
+                <Button x:Name="btnExit" Content="Exit" Width="70" Margin="0,0,10,0" Padding="10,2,10,2" Height="22" Click="btnExit_Click" />
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

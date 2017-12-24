@@ -1,19 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Forms = System.Windows.Forms;
 
 namespace Wallpapernator
 {
@@ -22,13 +9,16 @@ namespace Wallpapernator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Forms.NotifyIcon notifyIcon;
         private Logger logger = new Logger();
         private SpotlightProcessor spotlight;
         private BingProcessor bing;
+        private bool exitMode = false;
 
         public MainWindow()
         {
             InitializeComponent();
+            InitializeNotifyIcon(); // System tray
             this.Title += " v" + ucSettings.Wps.VersionShort;
             InitLogger();
             InitService();
@@ -45,6 +35,7 @@ namespace Wallpapernator
             InitService();
             ucImageList.Reload();
             logger.Log($"Settings updated.");
+
         }
 
         #region Spotlight
@@ -133,5 +124,46 @@ namespace Wallpapernator
 
         #endregion
 
+        #region Notify Icon
+
+        private void InitializeNotifyIcon()
+        {
+            notifyIcon = new Forms.NotifyIcon();
+            notifyIcon.Click += NotifyIcon_Click;
+            notifyIcon.Icon = Properties.Resources.icon_ico;
+            notifyIcon.Visible = true;
+
+            ucSettings.CloseExitEvent += UcSettings_CloseExitEvent;
+        }
+
+        private void UcSettings_CloseExitEvent(object sender, string e)
+        {
+            if (e == "EXIT")
+            {
+                this.exitMode = true;
+                this.Close();
+            }
+            else
+            {
+                this.WindowState = WindowState.Minimized;
+            }
+        }
+
+        private void NotifyIcon_Click(object sender, EventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+            this.Activate();
+        }
+
+        #endregion
+
+        private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!this.exitMode)
+            {
+                e.Cancel = true;
+                this.WindowState = WindowState.Minimized;
+            }
+        }
     }
 }
