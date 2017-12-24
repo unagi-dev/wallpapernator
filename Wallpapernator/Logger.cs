@@ -11,7 +11,7 @@ namespace Wallpapernator
     public class Logger
     {
         public event EventHandler<string> MessageEvent;
-        private string LOG_FILE = "logfile.txt";
+        private string LOG_FILE = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.txt");
 
         public void Log(string message)
         {
