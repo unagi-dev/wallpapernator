@@ -9,7 +9,7 @@ wallpapers that are automatically updated.
 _Note:_ The app has only been tested on Windows 10.
 
 ### Installation
-- Download the latest zip: [Wallpapernator 1.0.3](https://github.com/unagi-dev/wallpapernator/raw/dev/installers/Wallpapernator-0.1.3.zip)
+- Download the latest zip: [Wallpapernator 1.0.3](https://github.com/unagi-dev/wallpapernator/raw/master/installers/Wallpapernator-0.1.3.zip)
 - Unzip the installer (Wallpapernator.msi).
 - Run Wallpapernator.msi
 
