@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using Forms = System.Windows.Forms;
 
@@ -17,6 +18,13 @@ namespace Wallpapernator
 
         public MainWindow()
         {
+            if (Helpers.CheckInstallerStartup())
+            {
+                exitMode = true;
+                this.Close();
+                return;
+            }
+
             InitializeComponent();
             InitializeNotifyIcon(); // System tray
             this.Title += " v" + ucSettings.Wps.VersionShort;
@@ -128,10 +136,10 @@ namespace Wallpapernator
 
         private void InitializeNotifyIcon()
         {
-            notifyIcon = new Forms.NotifyIcon();
-            notifyIcon.Click += NotifyIcon_Click;
-            notifyIcon.Icon = Properties.Resources.icon_ico;
-            notifyIcon.Visible = true;
+            this.notifyIcon = new Forms.NotifyIcon();
+            this.notifyIcon.Click += NotifyIcon_Click;
+            this.notifyIcon.Icon = Properties.Resources.icon_ico;
+            this.notifyIcon.Visible = true;
 
             ucSettings.CloseExitEvent += UcSettings_CloseExitEvent;
         }
@@ -163,6 +171,10 @@ namespace Wallpapernator
             {
                 e.Cancel = true;
                 this.WindowState = WindowState.Minimized;
+            }
+            else
+            {
+                this.notifyIcon.Visible = false;
             }
         }
     }

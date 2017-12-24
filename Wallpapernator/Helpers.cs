@@ -9,11 +9,23 @@ using System.Windows;
 using Controls = System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 namespace Wallpapernator
 {
     public static class Helpers
     {
+        public static bool CheckInstallerStartup()
+        {
+            var args = Environment.GetCommandLineArgs().ToList();
+            if (args.Exists(x => x == "INSTALLER"))
+            {
+                Process.Start(System.Reflection.Assembly.GetEntryAssembly().Location);
+                return true;
+            }
+
+            return false;
+        }
 
         public static BitmapImage GetBitmapImageThumbFromFile(string file, int width, int height)
         {
