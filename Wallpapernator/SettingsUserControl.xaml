@@ -33,9 +33,9 @@
             <!-- Image size -->
             <Label Foreground="White" Grid.Row="2">Image size</Label>
             <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" >
-                <TextBox Margin="0,5,0,10" Width="50" Text="{Binding Path=ImageWidth}" />
+                <TextBox x:Name="txtImgWidth" Margin="0,5,0,10" Width="50" Text="{Binding Path=ImageWidth}" />
                 <Label Foreground="White">x</Label>
-                <TextBox Margin="0,5,0,10" Width="50" Text="{Binding Path=ImageHeight}" />
+                <TextBox x:Name="txtImgHeight" Margin="0,5,0,10" Width="50" Text="{Binding Path=ImageHeight}" />
             </StackPanel>
             <!-- Bing -->
             <Label Foreground="White" Grid.Row="3">Bing images</Label>
@@ -54,7 +54,7 @@
             <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,20,0,0">
                 <Button x:Name="btnCancelSettings" Content="Cancel" Width="70" Margin="5,0,10,0" Padding="10,2,10,2" Height="22" VerticalAlignment="Top" Click="btnCancelSettings_Click" />
                 <Button x:Name="btnSaveSettings" Content="Save" Width="70" Margin="0,0,10,0" Padding="10,2,10,2" Click="btnSaveSettings_Click" Height="22" VerticalAlignment="Top" />
-                <Label x:Name="lblSaveSettings" Foreground="#6495ED"></Label>
+                <Label x:Name="lblSaveSettings" Foreground="#6495ED" Padding="0,3,0,0" FontWeight="Bold" Opacity="0">Settings saved</Label>
             </StackPanel>
         </Grid>
     </Grid>

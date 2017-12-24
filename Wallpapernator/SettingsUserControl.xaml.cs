@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using WPFControls = System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WPFControls = System.Windows.Controls;
 
 namespace Wallpapernator
 {
@@ -23,6 +14,9 @@ namespace Wallpapernator
     public partial class SettingsUserControl : WPFControls.UserControl
     {
         private WPSettings wpSettings = new WPSettings();
+        private Brush successBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6495ED"));
+        private Brush errorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFED6464"));
+
         public event EventHandler SettingsUpdatedEvent;
 
         public WPSettings Wps
@@ -59,14 +53,27 @@ namespace Wallpapernator
 
         private void btnSaveSettings_Click(object sender, RoutedEventArgs e)
         {
+            ClearSaveMessage();
+
+            if (!validateSettings()) { return; }
+
             wpSettings.Save();
-            lblSaveSettings.Content = "Settings saved.";
             SettingsUpdatedEvent?.Invoke(this, null);
+
+            lblSaveSettings.Content = "Settings saved";
+            lblSaveSettings.Foreground = successBrush;
+            Helpers.AnimationFadeInOut(lblSaveSettings, 300, 2000, 800);
         }
 
         private void btnCancelSettings_Click(object sender, RoutedEventArgs e)
         {
+            ClearSaveMessage();
             wpSettings.Load();
+        }
+
+        private void ClearSaveMessage()
+        {
+            lblSaveSettings.Opacity = 0;
             lblSaveSettings.Content = "";
         }
 
@@ -82,6 +89,33 @@ namespace Wallpapernator
 
                 return dialog.SelectedPath;
             };
+        }
+
+        private bool validateSettings()
+        {
+            var msg = string.Empty;
+            var res = 0;
+
+            if (!string.IsNullOrEmpty(wpSettings.WallpaperPath) && !Directory.Exists(wpSettings.WallpaperPath))
+            {
+                msg = "Error: Invalid wallpaper directory.";
+            }
+            else if (!string.IsNullOrEmpty(wpSettings.SpotlightPath) && !Directory.Exists(wpSettings.SpotlightPath))
+            {
+                msg = "Error: Invalid spotlight directory.";
+            }
+            else if (!int.TryParse(txtImgWidth.Text, out res) || !int.TryParse(txtImgHeight.Text, out res))
+            {
+                msg = "Error: Invalid image size.";
+            }
+
+            if (string.IsNullOrEmpty(msg)) { return true; }
+
+            lblSaveSettings.Content = msg;
+            lblSaveSettings.Foreground = errorBrush;
+            Helpers.AnimationFadeIn(lblSaveSettings, 300);
+
+            return false;
         }
 
         #region Data
