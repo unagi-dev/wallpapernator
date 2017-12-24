@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wallpapernator"
         mc:Ignorable="d"
-        Title="Wallpapernator" Height="600" Width="800" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" Icon="icon_ico.ico">
+        Title="Wallpapernator" Height="600" Width="800" WindowStyle="SingleBorderWindow" WindowStartupLocation="Manual" Icon="icon_ico.ico" Closing="mainWindow_Closing" ShowInTaskbar="False">
+    
     <Grid Background="Transparent">
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TabItem Header="Settings">

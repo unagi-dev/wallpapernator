@@ -1,6 +1,8 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -10,6 +12,7 @@ namespace Wallpapernator
 {
     public class WPSettings : INotifyPropertyChanged
     {
+        private Properties.Settings props = Properties.Settings.Default;
         private string wallpaperPath = string.Empty;
         private string spotlightPath = string.Empty;
         private int imageWidth;
@@ -19,6 +22,7 @@ namespace Wallpapernator
         private string version;
         private string gitUrl = "https://github.com/unagi-dev/wallpapernator";
         private string unagiUrl = "https://github.com/unagi-dev";
+        private string versionCheckUrl = "https://raw.githubusercontent.com/unagi-dev/wallpapernator/master/ver";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,6 +37,7 @@ namespace Wallpapernator
         public WPSettings()
         {
             this.Load();
+            this.FirstRun();       
         }
 
         public void Load()
@@ -40,35 +45,73 @@ namespace Wallpapernator
             UpdateSettings();
 
             this.version = System.Windows.Forms.Application.ProductVersion;
-            this.WallpaperPath = Properties.Settings.Default.WallpaperPath;
-            this.SpotlightPath = Properties.Settings.Default.SpotlightPath;
-            this.ImageWidth = (int)Properties.Settings.Default.ImageWidth;
-            this.ImageHeight = (int)Properties.Settings.Default.ImageHeight;
-            this.bingIntervalHours = (int)Properties.Settings.Default.BingIntervalHours;
-            this.RunAtStartup = (bool)Properties.Settings.Default.RunAtStartup;
+            this.WallpaperPath = props.WallpaperPath;
+            this.SpotlightPath = props.SpotlightPath;
+            this.ImageWidth = props.ImageWidth;
+            this.ImageHeight = props.ImageHeight;
+            this.bingIntervalHours = props.BingIntervalHours;
+            this.RunAtStartup = props.RunAtStartup;
         }
 
         public void Save()
         {
-            Properties.Settings.Default.WallpaperPath = this.wallpaperPath;
-            Properties.Settings.Default.SpotlightPath = this.spotlightPath;
-            Properties.Settings.Default.ImageWidth = this.imageWidth;
-            Properties.Settings.Default.ImageHeight = this.imageHeight;
-            Properties.Settings.Default.BingIntervalHours = this.bingIntervalHours;
-            Properties.Settings.Default.RunAtStartup = this.runAtStartup;
+            this.CheckChanges();
 
-            Properties.Settings.Default.Save();
+            props.WallpaperPath = this.wallpaperPath;
+            props.SpotlightPath = this.spotlightPath;
+            props.ImageWidth = this.imageWidth;
+            props.ImageHeight = this.imageHeight;
+            props.BingIntervalHours = this.bingIntervalHours;
+            props.RunAtStartup = this.runAtStartup;
+
+            props.Save();
         }
 
         private void UpdateSettings()
         {
             // Copy user settings from previous application version if necessary
-            if (Properties.Settings.Default.UpdateSettings)
+            if (props.UpdateSettings)
             {
-                Properties.Settings.Default.Upgrade();
-                Properties.Settings.Default.UpdateSettings = false;
-                Properties.Settings.Default.Save();
+                props.Upgrade();
+                props.UpdateSettings = false;
+                props.Save();
             }
+        }
+
+        private void CheckChanges()
+        {
+            if (props.RunAtStartup != this.runAtStartup)
+            {
+                SetRunAtStartup(this.runAtStartup);
+            }
+        }
+
+        private void FirstRun()
+        {
+            if (!props.FirstRun) { return; }
+
+            SetRunAtStartup(props.RunAtStartup);
+            props.FirstRun = false;
+            props.Save();
+        }
+
+        private void SetRunAtStartup(bool doit)
+        {
+            var myPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            var startupDir = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            var shortcutAddress = Path.Combine(startupDir, "Wallpapernator.lnk");
+
+            if (!doit && System.IO.File.Exists(shortcutAddress))
+            {
+                System.IO.File.Delete(shortcutAddress);
+                return;
+            }
+
+            WshShell shell = new WshShell();
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.Description = "Wallpapernator";
+            shortcut.TargetPath = myPath;
+            shortcut.Save();
         }
 
         public string WallpaperPath
@@ -205,5 +248,12 @@ namespace Wallpapernator
             }
         }
 
+        public string VersionCheckUrl
+        {
+            get
+            {
+                return this.versionCheckUrl;
+            }
+        }
     }
 }
