@@ -116,6 +116,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Link.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NotifyWindow.xaml.cs">
@@ -154,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon_ico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\unagi_dev_about.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

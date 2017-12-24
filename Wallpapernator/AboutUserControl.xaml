@@ -6,7 +6,21 @@
              xmlns:local="clr-namespace:Wallpapernator"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+    <Grid Background="#404040">
+        <Grid Margin="10" Background="#404040">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Foreground="White" FontFamily="Segoe UI Light" FontSize="28" HorizontalAlignment="Center">Wallpapernator</Label>
+            <Label x:Name="lblVersion" Foreground="White" Grid.Row="1" HorizontalAlignment="Center">1.0.2.3546</Label>
+            <Button Grid.Row="2" x:Name="btnWpLink" Style="{StaticResource Link}" HorizontalAlignment="Center" Click="btnWpLink_Click">https://github.com/unagi-dev/wallpapernator</Button>
+            <Image x:Name="imgUnagi" Grid.Row="3" Width="130" Height="32" HorizontalAlignment="Right" VerticalAlignment="Bottom" Source="/Resources/unagi_dev_about.png" Cursor="Hand" MouseUp="imgUnagi_MouseUp"></Image>
+        </Grid>
     </Grid>
 </UserControl>

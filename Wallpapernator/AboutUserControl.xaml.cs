@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,24 @@ namespace Wallpapernator
     /// </summary>
     public partial class AboutUserControl : UserControl
     {
+        private WPSettings settings = new WPSettings();
+
         public AboutUserControl()
         {
             InitializeComponent();
+
+            lblVersion.Content = settings.Version;
+            btnWpLink.Content = settings.GitUrl;
+        }
+
+        private void btnWpLink_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(settings.GitUrl);
+        }
+
+        private void imgUnagi_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start(settings.UnagiUrl);
         }
     }
 }
