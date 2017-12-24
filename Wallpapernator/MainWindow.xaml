@@ -17,6 +17,9 @@
             <TabItem Header="Log">
                 <local:LogUserControl ClearLogEvent="ucLog_ClearLogEvent" OpenLocationEvent="ucLog_OpenLocationEvent" x:Name="ucLog"></local:LogUserControl>
             </TabItem>
+            <TabItem Header="About">
+                <local:AboutUserControl></local:AboutUserControl>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

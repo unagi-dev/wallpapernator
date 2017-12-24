@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Wallpapernator
 {
@@ -22,22 +10,28 @@ namespace Wallpapernator
     /// </summary>
     public partial class ImageInfoUserControl : UserControl
     {
+        private string imagePath;
+
         public ImageInfoUserControl(string ImagePath)
         {
             InitializeComponent();
+            this.imagePath = ImagePath;
 
-            var bmi = new BitmapImage();
-            bmi.BeginInit();
-            bmi.CacheOption = BitmapCacheOption.OnLoad;
-            bmi.UriSource = new Uri(ImagePath, UriKind.Absolute);
-            bmi.EndInit();
-            
-            imgThumb.Source = bmi;
-
+            imgThumb.Source = Helpers.GetBitmapImageThumbFromFile(ImagePath, 142, 80);
             FileInfo fi = new FileInfo(ImagePath);
             lblPath.Content = fi.Name;
             lblDate.Content = fi.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        private void lblPath_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // Test notify window
+            //var n = new NotifyWindow(this.imagePath);
+            //n.Show();
+
+            if (!File.Exists(this.imagePath)) { return; }
             
+            Process.Start("explorer.exe", this.imagePath);
         }
     }
 }
