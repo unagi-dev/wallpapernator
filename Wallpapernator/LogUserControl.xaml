@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ScrollViewer Name="LogScrollViewer" Margin="3,1,0,0">
+        <ScrollViewer Name="LogScrollViewer" Margin="3,1,1,0">
             <TextBlock 
                 x:Name="txtLog" 
                 TextWrapping="NoWrap" 

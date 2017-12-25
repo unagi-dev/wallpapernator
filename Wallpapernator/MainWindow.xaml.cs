@@ -29,14 +29,16 @@ namespace Wallpapernator
             }
 
             InitializeComponent();
-            InitializeNotifyIcon(); // System tray
-            this.Title += " v" + ucSettings.Wps.VersionShort;
-            InitLogger();
+            
             InitService();
         }
 
         private void InitService()
         {
+            InitializeNotifyIcon(); // System tray
+            this.Title += " v" + ucSettings.Wps.VersionShort;
+
+            InitLogger();
             InitSpotlight();
             InitBing();
         }
