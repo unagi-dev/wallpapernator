@@ -5,22 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wallpapernator"
         mc:Ignorable="d"
-        Title="Wallpapernator" Height="600" Width="800" WindowStyle="SingleBorderWindow" WindowStartupLocation="Manual" Icon="icon_ico.ico" Closing="mainWindow_Closing" ShowInTaskbar="False">
-    
-    <Grid Background="Transparent">
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TabItem Header="Settings">
-                <local:SettingsUserControl x:Name="ucSettings" SettingsUpdatedEvent="ucSettings_SettingsUpdatedEvent"></local:SettingsUserControl>
-            </TabItem>
-            <TabItem Header="Images">
-                <local:ImageListUserControl x:Name="ucImageList"></local:ImageListUserControl>
-            </TabItem>
-            <TabItem Header="Log">
-                <local:LogUserControl ClearLogEvent="ucLog_ClearLogEvent" OpenLocationEvent="ucLog_OpenLocationEvent" x:Name="ucLog"></local:LogUserControl>
-            </TabItem>
-            <TabItem Header="About">
-                <local:AboutUserControl></local:AboutUserControl>
-            </TabItem>
-        </TabControl>
+        Title="Wallpapernator" Height="600" Width="800" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Opacity="0"
+        WindowStartupLocation="CenterScreen" Icon="icon_ico.ico" Closing="mainWindow_Closing" ShowInTaskbar="False" Loaded="mainWindow_Loaded" WindowState="Minimized">
+
+    <Window.Background>
+        <SolidColorBrush Opacity="0.9" Color="Black"/>
+    </Window.Background>
+    <Grid x:Name="grdMain">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar menu -->
+        <Grid Grid.Row="0" x:Name="grdToolbar" MouseDown="grdToolbar_MouseDown">
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.5" Color="Gray"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!-- Menu links -->
+            <StackPanel Orientation="Horizontal" Margin="10,5,0,5">
+                <Button Style="{StaticResource Link}" Click="ToolbarButton_Click">Settings</Button>
+                <Button Style="{StaticResource Link}" Click="ToolbarButton_Click" Margin="20,0,0,0">Images</Button>
+                <Button Style="{StaticResource Link}" Click="ToolbarButton_Click" Margin="20,0,0,0">Log</Button>
+                <Button Style="{StaticResource Link}" Click="ToolbarButton_Click" Margin="20,0,0,0">About</Button>
+                <Button Style="{StaticResource Link}" Click="ToolbarButtonExit_Click" Margin="20,0,0,0">Exit</Button>
+            </StackPanel>
+            <!-- Close X -->
+            <Image Grid.Column="1" x:Name="btnClose" Width="16" Height="16" Margin="0,0,6,0" HorizontalAlignment="Right" Source="/Resources/close_x.png" Cursor="Hand" MouseDown="btnClose_MouseDown"></Image>
+        </Grid>
+
+        <!-- Settings -->
+        <local:SettingsUserControl x:Name="ucSettings" Grid.Row="1" SettingsUpdatedEvent="ucSettings_SettingsUpdatedEvent" Opacity="0"></local:SettingsUserControl>
+        <!-- Images -->
+        <local:ImageListUserControl x:Name="ucImageList" Grid.Row="1" Opacity="0"></local:ImageListUserControl>
+        <!-- Log -->
+        <local:LogUserControl x:Name="ucLog" Grid.Row="1" ClearLogEvent="ucLog_ClearLogEvent" OpenLocationEvent="ucLog_OpenLocationEvent" Opacity="0"></local:LogUserControl>
+        <!-- About -->
+        <local:AboutUserControl x:Name="ucAbout" Grid.Row="1" Opacity="0"></local:AboutUserControl>
+        
     </Grid>
+
 </Window>

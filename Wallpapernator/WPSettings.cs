@@ -24,6 +24,7 @@ namespace Wallpapernator
         private string unagiUrl = "https://github.com/unagi-dev";
         private string versionCheckUrl = "https://raw.githubusercontent.com/unagi-dev/wallpapernator/master/ver";
 
+        private string spotlightDir = @"Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets";
         public event PropertyChangedEventHandler PropertyChanged;
 
         // This method is called by the Set accessor of each property.
@@ -37,7 +38,7 @@ namespace Wallpapernator
         public WPSettings()
         {
             this.Load();
-            this.FirstRun();       
+            this.FirstRun();
         }
 
         public void Load()
@@ -46,11 +47,24 @@ namespace Wallpapernator
 
             this.version = System.Windows.Forms.Application.ProductVersion;
             this.WallpaperPath = props.WallpaperPath;
-            this.SpotlightPath = props.SpotlightPath;
+            this.SpotlightPath = GetSpotlightPath();
             this.ImageWidth = props.ImageWidth;
             this.ImageHeight = props.ImageHeight;
             this.bingIntervalHours = props.BingIntervalHours;
             this.RunAtStartup = props.RunAtStartup;
+        }
+
+        private string GetSpotlightPath()
+        {
+            if (!string.IsNullOrWhiteSpace(props.SpotlightPath)) { return props.SpotlightPath; }
+
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), this.spotlightDir);
+
+            if (!Directory.Exists(path)) { return string.Empty; }
+
+            props.SpotlightPath = path;
+            props.Save();
+            return path;
         }
 
         public void Save()

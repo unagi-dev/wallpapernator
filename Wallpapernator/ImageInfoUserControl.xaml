@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="80">
     <Border BorderBrush="#FF525252" BorderThickness="0,0,0,1">
-        <Grid HorizontalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch" MouseDown="Grid_MouseDown" Cursor="Hand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -18,7 +18,7 @@
             </Grid.RowDefinitions>
             <Image x:Name="imgThumb" Width="142" Height="80"/>
             <StackPanel Grid.Column="1">
-                <Label x:Name="lblPath" Foreground="White" MouseLeftButtonUp="lblPath_MouseLeftButtonUp">Path\to\image</Label>
+                <Label x:Name="lblPath" Foreground="White">Path\to\image</Label>
                 <Label x:Name="lblDate" Foreground="White">2017-01-01</Label>
             </StackPanel>
         </Grid>

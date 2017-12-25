@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Forms = System.Windows.Forms;
 
 namespace Wallpapernator
@@ -15,6 +17,7 @@ namespace Wallpapernator
         private SpotlightProcessor spotlight;
         private BingProcessor bing;
         private bool exitMode = false;
+        private Dictionary<string, UserControl> userControls = new Dictionary<string, UserControl>();
 
         public MainWindow()
         {
@@ -26,14 +29,16 @@ namespace Wallpapernator
             }
 
             InitializeComponent();
-            InitializeNotifyIcon(); // System tray
-            this.Title += " v" + ucSettings.Wps.VersionShort;
-            InitLogger();
+            
             InitService();
         }
 
         private void InitService()
         {
+            InitializeNotifyIcon(); // System tray
+            this.Title += " v" + ucSettings.Wps.VersionShort;
+
+            InitLogger();
             InitSpotlight();
             InitBing();
         }
@@ -140,8 +145,7 @@ namespace Wallpapernator
             this.notifyIcon.Click += NotifyIcon_Click;
             this.notifyIcon.Icon = Properties.Resources.icon_ico;
             this.notifyIcon.Visible = true;
-
-            ucSettings.CloseExitEvent += UcSettings_CloseExitEvent;
+            this.notifyIcon.ContextMenu = GetNotifyContextMenu();
         }
 
         private void UcSettings_CloseExitEvent(object sender, string e)
@@ -159,11 +163,50 @@ namespace Wallpapernator
 
         private void NotifyIcon_Click(object sender, EventArgs e)
         {
+            Activate();
+            ShowForm(true);
+        }
+
+        private Forms.ContextMenu GetNotifyContextMenu()
+        {
+            var ctxMenu = new Forms.ContextMenu();
+            ctxMenu.MenuItems.Add(new Forms.MenuItem("Open", ctxNotifyOpen_Click));
+            ctxMenu.MenuItems.Add(new Forms.MenuItem("Close", ctxNotifyMinimize_Click));
+            ctxMenu.MenuItems.Add(new Forms.MenuItem("Exit", ctxNotifyExit_Click));
+            return ctxMenu;
+        }
+
+        private void ctxNotifyOpen_Click(object sender, EventArgs e)
+        {
             this.WindowState = WindowState.Normal;
             this.Activate();
         }
 
+        private void ctxNotifyMinimize_Click(object sender, EventArgs e)
+        {
+            ShowForm(false);
+        }
+
+        private void ctxNotifyExit_Click(object sender, EventArgs e)
+        {
+            exitMode = true;
+            this.Close();
+        }
+
         #endregion
+
+        #region Window misc
+
+        private void mainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            userControls.Add("Settings", ucSettings);
+            userControls.Add("Images", ucImageList);
+            userControls.Add("Log", ucLog);
+            userControls.Add("About", ucAbout);
+
+            Panel.SetZIndex(ucSettings, 9);
+            Helpers.AnimationFadeIn(ucSettings, 300);
+        }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -177,5 +220,59 @@ namespace Wallpapernator
                 this.notifyIcon.Visible = false;
             }
         }
+
+        // Enable window drag on imitation toolbar
+        private void grdToolbar_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (System.Windows.Input.Mouse.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+                DragMove();
+        }
+
+        private void btnClose_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ShowForm(false);
+        }
+        
+        private void ToolbarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var itm = ((Button)sender).Content as string;
+
+            foreach (var uc in userControls.Where(x => x.Key != itm))
+            {
+                if (uc.Value.Opacity == 0) { continue; }
+                Helpers.AnimationFadeOut(uc.Value, 250);
+                Panel.SetZIndex(uc.Value, 0);
+            }
+
+            Panel.SetZIndex(userControls[itm], 9);
+            Helpers.AnimationFadeIn(userControls[itm], 250);
+        }
+
+        private void ToolbarButtonExit_Click(object sender, RoutedEventArgs e)
+        {
+            exitMode = true;
+            this.Close();
+        }
+
+        private void ShowForm(bool show)
+        {
+            if (show) { this.Activate(); }
+
+            if (show && mainWindow.Opacity == 0)
+            {
+                mainWindow.WindowState = WindowState.Normal;
+                Helpers.AnimationFadeIn(mainWindow, 250);
+                this.ShowInTaskbar = true;
+            }
+            else if (!show && mainWindow.Opacity == 1)
+            {
+                Helpers.AnimationFadeOut(mainWindow, 250);
+                this.ShowInTaskbar = false;
+                mainWindow.WindowState = WindowState.Minimized;
+            }
+        }
+
+        #endregion
+        
     }
 }

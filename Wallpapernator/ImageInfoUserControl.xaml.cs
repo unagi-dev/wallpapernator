@@ -23,14 +23,14 @@ namespace Wallpapernator
             lblDate.Content = fi.CreationTime.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        private void lblPath_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // Test notify window
             //var n = new NotifyWindow(this.imagePath);
             //n.Show();
 
             if (!File.Exists(this.imagePath)) { return; }
-            
+
             Process.Start("explorer.exe", this.imagePath);
         }
     }
