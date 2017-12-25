@@ -82,5 +82,18 @@ namespace Wallpapernator
             storyboard.Begin(element);
         }
 
+        public static void AnimationFadeOut(Controls.ContentControl element, int fadeOutMs = 500)
+        {
+            var storyboard = new Storyboard();
+            
+            var fadeOutAnimation = new DoubleAnimation()
+            { From = 1.0, To = 0.0, Duration = new Duration(TimeSpan.FromMilliseconds(fadeOutMs)) };
+            
+            Storyboard.SetTargetName(fadeOutAnimation, element.Name);
+            Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath("Opacity", 0));
+            storyboard.Children.Add(fadeOutAnimation);
+            storyboard.Begin(element);
+        }
+
     }
 }
