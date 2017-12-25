@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Wallpapernator"
         mc:Ignorable="d"
         Title="Wallpapernator" Height="600" Width="800" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" Opacity="0"
-        WindowStartupLocation="Manual" Icon="icon_ico.ico" Closing="mainWindow_Closing" ShowInTaskbar="False" Loaded="mainWindow_Loaded">
+        WindowStartupLocation="Manual" Icon="icon_ico.ico" Closing="mainWindow_Closing" ShowInTaskbar="False" Loaded="mainWindow_Loaded" WindowState="Minimized">
 
     <Window.Background>
         <SolidColorBrush Opacity="0.9" Color="Black"/>

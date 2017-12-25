@@ -258,6 +258,7 @@ namespace Wallpapernator
 
             if (show && mainWindow.Opacity == 0)
             {
+                mainWindow.WindowState = WindowState.Normal;
                 Helpers.AnimationFadeIn(mainWindow, 250);
                 this.ShowInTaskbar = true;
             }
@@ -265,6 +266,7 @@ namespace Wallpapernator
             {
                 Helpers.AnimationFadeOut(mainWindow, 250);
                 this.ShowInTaskbar = false;
+                mainWindow.WindowState = WindowState.Minimized;
             }
         }
 
