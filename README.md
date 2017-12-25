@@ -22,6 +22,7 @@ _Note:_ The app has only been tested on Windows 10.
 - _Run_ _at_ _startup_ : Run the app on startup. (The app has to run to check for wallpapers)
 
 ### TODO
+- Fix minimize to tray
 - Auto updater
 - Polishing
 
@@ -31,3 +32,17 @@ _Note:_ The app has only been tested on Windows 10.
 - Open solution
 - Run
 - For the installer project you will need the _Visual Studio Installer Projects Extension_ (Search for it in Tools > Extension and Updates)
+
+### Versions
+
+
+**0.1.3** [Wallpapernator-0.1.3.zip](https://github.com/unagi-dev/wallpapernator/raw/master/installers/Wallpapernator-0.1.3.zip)  
+- Fixed memory usage issue
+- Added tray icon
+- Run at startup
+- About tab
+- Fixes and improvements
+
+
+**0.1.2**  
+- Just a test. Initial upload
