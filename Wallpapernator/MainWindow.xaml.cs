@@ -140,6 +140,7 @@ namespace Wallpapernator
             this.notifyIcon.Click += NotifyIcon_Click;
             this.notifyIcon.Icon = Properties.Resources.icon_ico;
             this.notifyIcon.Visible = true;
+            this.notifyIcon.ContextMenu = GetNotifyContextMenu();
 
             ucSettings.CloseExitEvent += UcSettings_CloseExitEvent;
         }
@@ -161,6 +162,43 @@ namespace Wallpapernator
         {
             this.WindowState = WindowState.Normal;
             this.Activate();
+        }
+
+        private Forms.ContextMenu GetNotifyContextMenu()
+        {
+            var ctxMenu = new Forms.ContextMenu();
+            ctxMenu.MenuItems.Add(new Forms.MenuItem("Open", ctxNotifyOpen_Click));
+            ctxMenu.MenuItems.Add(new Forms.MenuItem("Close", ctxNotifyMinimize_Click));
+            ctxMenu.MenuItems.Add(new Forms.MenuItem("Exit", ctxNotifyExit_Click));
+            return ctxMenu;
+        }
+
+        private void ctxNotifyOpen_Click(object sender, EventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+            this.Activate();
+        }
+
+        private void ctxNotifyMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+            this.Activate();
+        }
+
+        private void ctxNotifyExit_Click(object sender, EventArgs e)
+        {
+            exitMode = true;
+            this.Close();
+        }
+
+        private void MinimizeApp(bool show)
+        {
+
+        }
+
+        private void ToggleMinimize()
+        {
+
         }
 
         #endregion
