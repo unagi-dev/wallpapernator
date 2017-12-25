@@ -6,7 +6,7 @@ this app monitors them and copies them to a desired location. You then just set 
 wallpaper setting to _Slideshow_ and point it to the chosen location. Now you have sweet
 wallpapers that are automatically updated.
 
-![alt text](https://raw.githubusercontent.com/unagi-dev/wallpapernator/master/Wallpapernator/screenshot.jpg "Wallpapernator")
+![alt text](https://raw.githubusercontent.com/unagi-dev/wallpapernator/master/screenshot.jpg "Wallpapernator")
 
 _Note:_ The app has only been tested on Windows 10.
 
