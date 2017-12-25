@@ -18,7 +18,7 @@ _Note:_ The app has only been tested on Windows 10.
 ### Usage
 - Configure settings
 - _Wallpaper_ : The folder where images will be copied to. Tip: Point to a cloud drive to easily access wallpaper across machines.
-- _Spotlight_ : This is the path where Windows stores the lock screen images. It should be: `C:\Users\YourUsername\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets` replacing `YourUsername` with your username.
+- _Spotlight_ : This is the path where Windows stores the lock screen images. It should be: `C:\Users\YourUsername\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets` replacing `YourUsername` with your username. This should be auto detected.
 - _Image_ _size_ : Currently only `1920x1080` has been tested. This is the size of the image it looks for in Spotlight.
 - _Bing_ _images_ : The interval to check for new Bing images.
 - _Run_ _at_ _startup_ : Run the app on startup. (The app has to run to check for wallpapers)
@@ -42,6 +42,7 @@ _Note:_ The app has only been tested on Windows 10.
 - Redesigned UI
 - Added tray context menu (right click)
 - Added update check on About page
+- Auto detect spotlight images path
 - Many UI fixes and tweaks
 
 
