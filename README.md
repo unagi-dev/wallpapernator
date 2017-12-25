@@ -23,11 +23,6 @@ _Note:_ The app has only been tested on Windows 10.
 - _Bing_ _images_ : The interval to check for new Bing images.
 - _Run_ _at_ _startup_ : Run the app on startup. (The app has to run to check for wallpapers)
 
-### TODO
-- Fix minimize to tray
-- Auto updater
-- Polishing
-
 ### Dev stuff
 - Visual Studio 2017 Community Edition
 - WPF application
