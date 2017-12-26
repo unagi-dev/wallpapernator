@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
@@ -31,7 +28,7 @@ namespace Wallpapernator
         {
             this.Stop();
             if (!Debugger.IsAttached) { await GetBingImageAsync(); }
-            
+
             bingTimer = new Timer(intervalHours * 60 * 60 * 1000);
             bingTimer.Elapsed += BingTimer_Elapsed;
             bingTimer.Start();
@@ -118,6 +115,5 @@ namespace Wallpapernator
 
             this.ImageAddedEvent?.Invoke(this, destFile);
         }
-
     }
 }

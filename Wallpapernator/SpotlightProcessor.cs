@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
 
 namespace Wallpapernator
 {
-    public class SpotlightProcessor: IDisposable
+    public class SpotlightProcessor
     {
-        private FileSystemWatcher watcher;
+        //private FileSystemWatcher watcher;
+        private Timer spotlightTimer;
         private string watchPath = string.Empty;
         private string destPath = string.Empty;
         private int imgWidth;
         private int imgHeight;
+        private int interval = 30 * 60 * 1000; // 30 minutes
 
         public event EventHandler<string> ImageAddedEvent;
         public event EventHandler<string> ErrorEvent;
@@ -31,10 +30,27 @@ namespace Wallpapernator
         {
             if (!Directory.Exists(this.watchPath) || !Directory.Exists(this.destPath)) { return; }
 
-            WatcherPathInitialScan();
-            watcher = new FileSystemWatcher(this.watchPath, "*.*");
-            watcher.Changed += Watcher_Changed;
-            watcher.EnableRaisingEvents = true;
+            this.Stop();
+            ScanSpotlightImages();
+            spotlightTimer = new Timer(interval);
+            spotlightTimer.Elapsed += SpotlightTimer_Elapsed; ;
+            spotlightTimer.Start();
+            //watcher = new FileSystemWatcher(this.watchPath, "*.*");
+            //watcher.Changed += Watcher_Changed;
+            //watcher.EnableRaisingEvents = true;
+        }
+
+        public void Stop()
+        {
+            if (spotlightTimer == null || !spotlightTimer.Enabled) { return; }
+
+            spotlightTimer.Stop();
+            spotlightTimer.Dispose();
+        }
+
+        private void SpotlightTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            ScanSpotlightImages();
         }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
@@ -67,34 +83,27 @@ namespace Wallpapernator
             catch (Exception ex) { this.ErrorEvent?.Invoke(this, ex.Message); }
         }
 
-        private void WatcherPathInitialScan()
+        private void ScanSpotlightImages()
         {
             try
             {
                 foreach (var fullPath in Directory.GetFiles(this.watchPath))
                 {
+                    var fi = new FileInfo(fullPath);
+                    var destFile = Path.Combine(this.destPath, $"{fi.Name}.jpg");
+                    if (File.Exists(destFile)) { continue; }
+
                     using (var bmp = Bitmap.FromFile(fullPath))
                     {
                         if (bmp.Width == this.imgWidth && bmp.Height == this.imgHeight)
                         {
-                            var fi = new FileInfo(fullPath);
-                            var destFile = Path.Combine(this.destPath, $"{fi.Name}.jpg");
-
-                            if (!File.Exists(destFile))
-                            {
-                                File.Copy(fullPath, destFile);
-                                this.ImageAddedEvent?.Invoke(this, destFile);
-                            }
+                            File.Copy(fullPath, destFile);
+                            this.ImageAddedEvent?.Invoke(this, destFile);
                         }
                     }
                 }
             }
             catch (Exception ex) { this.ErrorEvent?.Invoke(this, ex.Message); }
-        }
-
-        public void Dispose()
-        {
-            if (watcher != null) { watcher.Dispose(); }
         }
     }
 }

@@ -55,8 +55,6 @@ namespace Wallpapernator
 
         private void InitSpotlight()
         {
-            if (spotlight != null) { spotlight.Dispose(); }
-
             spotlight = new SpotlightProcessor(ucSettings.Wps.SpotlightPath, ucSettings.Wps.WallpaperPath, ucSettings.Wps.ImageWidth, ucSettings.Wps.ImageHeight);
             spotlight.ImageAddedEvent += Spotlight_ImageAddedEvent;
             spotlight.ErrorEvent += Spotlight_ErrorEvent;
