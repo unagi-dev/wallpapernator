@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,7 @@ namespace Wallpapernator
     public partial class AboutUserControl : UserControl
     {
         private WPSettings settings = new WPSettings();
+        private Regex rxVer = new Regex(@"<title>Release v(\d+\.\d+\.\d+)", RegexOptions.IgnoreCase);
 
         public AboutUserControl()
         {
@@ -54,33 +56,56 @@ namespace Wallpapernator
             using (var verClient = new WebClient())
             {
                 verClient.DownloadStringCompleted += VerClient_DownloadStringCompleted;
-                verClient.DownloadStringAsync(new Uri(settings.VersionCheckUrl));
+                verClient.DownloadStringAsync(new Uri(settings.LatestReleaseUrl));
             }
         }
 
         private void VerClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            var msg = string.Empty;
+            var msg = "Up to date.";
+            var hasUpdate = false;
 
             if (e.Error != null)
             {
                 msg = "Error getting version: " + e.Error.Message;
             }
-            else {
-                var data = e.Result.Split('\n');
+            else
+            {
+                var match = rxVer.Match(e.Result);
 
-                if (data[0] == settings.Version)
+                if (!match.Success || match.Groups.Count < 2)
                 {
-                    msg = "Up to date.";
+                    msg = "Error finding version info.";
                 }
-                else {
-                    msg = $"New version available: {data[0]} ({data[1]})";
+                else
+                {
+                    var latest = match.Groups[1].Value;
+                    if (settings.VersionShort != latest)
+                    {
+                        msg = $"New version available: {latest}";
+                        hasUpdate = true;
+                    }
                 }
             }
 
             lblUpdateInfo.Content = msg;
             Helpers.AnimationFadeOut(ucSpinner, 100);
             Helpers.AnimationFadeInOut(lblUpdateInfo, 300, 3000, 5000);
+            if (hasUpdate)
+            {
+                btnLatestRelease.Visibility = Visibility.Visible;
+                Helpers.AnimationFadeInOut(btnLatestRelease, 300, 3000, 5000, new EventHandler(btnLatestRelease_AnimationCompleted));
+            }
+        }
+
+        private void btnLatestRelease_AnimationCompleted(object sender, EventArgs e)
+        {
+            btnLatestRelease.Visibility = Visibility.Hidden;
+        }
+
+        private void btnLatestRelease_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(settings.LatestReleaseUrl);
         }
     }
 }

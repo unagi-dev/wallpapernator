@@ -47,7 +47,7 @@ namespace Wallpapernator
             }
         }
 
-        public static void AnimationFadeInOut(Controls.ContentControl element, int fadeInMs = 500, int fadeOutMs = 500, int fadeOutStartMs = 1000)
+        public static void AnimationFadeInOut(Controls.ContentControl element, int fadeInMs = 500, int fadeOutMs = 500, int fadeOutStartMs = 1000, EventHandler completedEvent = null)
         {
             var storyboard = new Storyboard();
 
@@ -66,6 +66,12 @@ namespace Wallpapernator
             Storyboard.SetTargetName(fadeOutAnimation, element.Name);
             Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath("Opacity", 0));
             storyboard.Children.Add(fadeOutAnimation);
+
+            if (completedEvent != null)
+            {
+                storyboard.Completed += completedEvent;
+            }
+
             storyboard.Begin(element);
         }
 
@@ -85,10 +91,10 @@ namespace Wallpapernator
         public static void AnimationFadeOut(Controls.ContentControl element, int fadeOutMs = 500)
         {
             var storyboard = new Storyboard();
-            
+
             var fadeOutAnimation = new DoubleAnimation()
             { From = 1.0, To = 0.0, Duration = new Duration(TimeSpan.FromMilliseconds(fadeOutMs)) };
-            
+
             Storyboard.SetTargetName(fadeOutAnimation, element.Name);
             Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath("Opacity", 0));
             storyboard.Children.Add(fadeOutAnimation);

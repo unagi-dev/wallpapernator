@@ -22,7 +22,7 @@ namespace Wallpapernator
         private string version;
         private string gitUrl = "https://github.com/unagi-dev/wallpapernator";
         private string unagiUrl = "https://github.com/unagi-dev";
-        private string versionCheckUrl = "https://raw.githubusercontent.com/unagi-dev/wallpapernator/master/ver";
+        private string latestReleaseUrl = "https://github.com/unagi-dev/wallpapernator/releases/latest";
 
         private string spotlightDir = @"Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets";
         public event PropertyChangedEventHandler PropertyChanged;
@@ -262,11 +262,11 @@ namespace Wallpapernator
             }
         }
 
-        public string VersionCheckUrl
+        public string LatestReleaseUrl
         {
             get
             {
-                return this.versionCheckUrl;
+                return this.latestReleaseUrl;
             }
         }
     }
